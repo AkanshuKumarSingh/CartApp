@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 function HomePage(props) {
@@ -14,13 +15,34 @@ function HomePage(props) {
                         <div>{product.description}</div>
                         <h3>{product.price}</h3>
                         <button onClick={() => {
-                            console.log(12345);
-                            props.addItem();
+                            if(product.title == "Smartphone"){
+                                props.addMobile();
+                            }else if(product.title == "Bluetooth Speaker"){
+                                props.addSpeaker();
+                            }else{
+                                props.addBook();
+                            }
                         }}>Add to Cart</button>
+                        <span>    </span>
+                        <button>
+                            <Link
+                                style={{ textDecoration: "none", color: "black" }}
+                                to={{
+                                    pathname: '/product',
+                                    state: {
+                                        image: product.image,
+                                        title: product.title,
+                                        desc: product.description,
+                                        price: product.price
+                                    }
+                                }}
+                            >View Item
+                            </Link>
+                        </button>
                     </div>
                 )
             })}
-        </div>
+        </div >
     )
 }
 
@@ -30,9 +52,15 @@ const mapStateToProps = store => {
 
 const mapDispatchtoProps = dispatch => {
     return {
-        addItem: () => {
-            return dispatch({ type: "add_item" });
-        }
+        addMobile: () => {
+            return dispatch({ type: "add_mobile" });
+        },
+        addSpeaker: () => {
+            return dispatch({ type: "add_speaker" });
+        },
+        addBook: () => {
+            return dispatch({ type: "add_book" });
+        },
     }
 }
 
